@@ -8,6 +8,8 @@ import java.util.*;
 /**
  * @author zehua
  * @date 2021/5/3 16:19
+ *
+ * 观察模式的多播器
  */
 public class Multicast {
     private Map<Class, ServiceListener> startListenersMap = new HashMap<>();

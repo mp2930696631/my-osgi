@@ -5,6 +5,8 @@ import com.hz.service.MyService;
 /**
  * @author zehua
  * @date 2021/5/3 19:22
+ *
+ * MyService接口的显示，用于发布该服务
  */
 public class MyServiceImpl implements MyService {
     @Override

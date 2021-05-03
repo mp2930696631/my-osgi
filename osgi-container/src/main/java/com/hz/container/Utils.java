@@ -18,25 +18,35 @@ import java.util.jar.JarFile;
 /**
  * @author zehua
  * @date 2021/5/3 14:53
+ *
+ * 大杂烩。。工具包
  */
 public class Utils {
 
+    // 用于保存bundle jar路径-》classLoader的映射
     public static Map<String, ClassLoader> bundlePathClassLoaderMap = new HashMap<>();
 
+    // 每个bundle的application.properties可能有export.package属性，这个map对象用于保存packageName-》classLoader的映射，方便根据包名获取对应的ClassLoader
     public static Map<String, ClassLoader> exportPkNameClassLoaderMap = new HashMap<>();
 
+    // activator标识-》classLoader的映射，方便进行activator反射调用（activator标识=jar包的名称+,+activator 类的完全限定名）
     public static Map<String, ClassLoader> activatorClassLoaderMap = new HashMap<>();
 
+    // 保存context对象
     public static BundleContext bundleContext;
 
+    // 多播器
     public static Multicast multicast = new Multicast();
 
+    // 自增
     private static AtomicInteger atomicInteger = new AtomicInteger();
 
+    // 为每个osgiClassLoader都分配一个id
     public static int getId() {
         return atomicInteger.incrementAndGet();
     }
 
+    // 获取jar包所在的路径
     public static String getDeployPath() {
         final String path =
                 Utils.class.getResource("").getPath();
@@ -48,6 +58,7 @@ public class Utils {
         // return "F:/zehua/test/deploy/";
     }
 
+    // 获取某路径下的所有jar包的URL
     public static URL[] findResourceURLs(String baseDir) throws MalformedURLException {
         File file = new File(baseDir);
         URL[] urls = null;
@@ -62,6 +73,7 @@ public class Utils {
         return urls;
     }
 
+    // 获取某路径下面的所有jar包的绝对路径
     public static String[] getJarsAbsPath(String baseDir) {
         File file = new File(baseDir);
         String[] jarsPath = null;
@@ -76,6 +88,7 @@ public class Utils {
         return jarsPath;
     }
 
+    // 构建Utils.bundlePathClassLoaderMap
     public static void setBundleClassLoaderMap() {
         final String deployPath = getDeployPath();
         System.out.println(deployPath);
@@ -92,6 +105,7 @@ public class Utils {
         }
     }
 
+    // 解析bundle的resources/META_INF/MANIFEST.MF文件
     public static void resolveMetadata(Map<String, ClassLoader> bundleClassLoaderMap) {
         final String deployPath = getDeployPath();
 
@@ -111,6 +125,7 @@ public class Utils {
         }
     }
 
+    // 解析bundle的resources/META_INF/MANIFEST.MF文件
     public static void doResolveMetadata(OsgiClassLoader osgiClassLoader, String jarPath) throws IOException {
         JarFile jarFile = new JarFile(jarPath);
 
@@ -127,6 +142,7 @@ public class Utils {
 
                 MetadataObj metadataObj = new MetadataObj(jarPath);
 
+                //  import.package解析
                 final String importPk = properties.getProperty(Constant.IMPORT_PACKAGE);
                 if (importPk != null) {
                     final String[] importPks = importPk.split(",");
@@ -148,7 +164,7 @@ public class Utils {
 
                 osgiClassLoader.setMetadataObj(metadataObj);
 
-                //
+                // activator.class解析
                 final String activatorClassName = properties.getProperty(Constant.ACTIVATOR_CLASS);
                 String jarName = jarPath.substring(jarPath.lastIndexOf("/") + 1);
                 activatorClassLoaderMap.put(jarName + "," + activatorClassName, osgiClassLoader);

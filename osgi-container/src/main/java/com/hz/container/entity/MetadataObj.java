@@ -5,6 +5,8 @@ import java.util.List;
 /**
  * @author zehua
  * @date 2021/5/3 14:59
+ *
+ * 保存import.package、export.package元数据信息的对象
  */
 public class MetadataObj {
     private String jarPath;

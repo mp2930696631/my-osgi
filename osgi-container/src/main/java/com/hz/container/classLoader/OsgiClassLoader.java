@@ -9,6 +9,8 @@ import java.net.URLClassLoader;
 /**
  * @author zehua
  * @date 2021/5/3 14:58
+ *
+ * OSGi的关键，自定义的类加载器
  */
 public class OsgiClassLoader extends URLClassLoader {
     private MetadataObj metadataObj;

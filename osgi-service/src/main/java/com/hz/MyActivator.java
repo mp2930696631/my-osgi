@@ -5,6 +5,8 @@ import com.hz.core.*;
 /**
  * @author zehua
  * @date 2021/5/3 16:06
+ *
+ * MyService接口
  */
 public class MyActivator implements BundleActivator, ServiceListener {
     @Override

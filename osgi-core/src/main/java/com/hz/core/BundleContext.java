@@ -6,10 +6,13 @@ package com.hz.core;
  */
 public interface BundleContext {
 
+    // 添加服务
     void addService(Class<?> clazz, Object impl);
 
+    // 获取服务
     <T> T getService(Class<T> tClass);
 
+    // 添加监听
     void addListener(ServiceListener listener);
 
     void test();

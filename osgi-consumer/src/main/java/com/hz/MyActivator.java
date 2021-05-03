@@ -16,11 +16,12 @@ public class MyActivator implements BundleActivator, ServiceListener {
     }
 
     public void stop(BundleContext context) {
-        System.out.println("consumer bundle stop...");
+
     }
 
     @Override
     public void doListen(Event event) {
+        // 监听start事件，并打印classLoader
         if (event.eventType == EventTypeEnum.START_EVENT) {
             final MyService service = context.getService(MyService.class);
             System.out.println(service.doService());

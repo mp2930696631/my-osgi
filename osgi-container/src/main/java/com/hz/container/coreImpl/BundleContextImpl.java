@@ -11,6 +11,8 @@ import java.util.Set;
 /**
  * @author zehua
  * @date 2021/5/3 15:48
+ *
+ * BundleContext的实现类
  */
 public class BundleContextImpl implements BundleContext {
     private Map<ClassLoader, Map<Class<?>, Object>> map = new HashMap<>();

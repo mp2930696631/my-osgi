@@ -12,7 +12,7 @@ import java.util.*;
  * @author zehua
  * @date 2021/5/3 16:33
  * <p>
- * 接受终端输入的线程
+ * 接受终端输入
  */
 public class TerminalCmd {
     private static final String PREFIX = "hz.osgi> ";
@@ -68,6 +68,7 @@ public class TerminalCmd {
         return false;
     }*/
 
+    // 处理start命令
     private void doStartCmd(String jarPath) {
         try {
             final URL url = new URL(Constant.JAR_URL_PREFIX + jarPath + Constant.JAR_URL_SUFFIX);
@@ -81,6 +82,7 @@ public class TerminalCmd {
         }
     }
 
+    // 处理stop命令，进行资源的清理
     private void doStopCmd(String jarPath) {
         doRemoveEntries(jarPath, Utils.exportPkNameClassLoaderMap);
         doRemoveEntries(jarPath, Utils.activatorClassLoaderMap);
@@ -93,6 +95,7 @@ public class TerminalCmd {
         System.gc();
     }
 
+    // 资源清理
     private void doRemoveEntries(String jarPath, Map<String, ClassLoader> map) {
         final Set<Map.Entry<String, ClassLoader>> exportPkEntries = map.entrySet();
         final List<String> removeKeys = new ArrayList<>();
@@ -109,6 +112,7 @@ public class TerminalCmd {
         });
     }
 
+    // 处理ls命令
     private void doLsCmd() {
         final Map<String, ClassLoader> bundlePathClassLoaderMap = Utils.bundlePathClassLoaderMap;
         bundlePathClassLoaderMap.forEach((path, classLoader) -> {
@@ -116,6 +120,7 @@ public class TerminalCmd {
         });
     }
 
+    // 处理help命令
     private void doHelpCmd() {
         System.out.println("支持的命令如下：\n" +
                 "help: 查看帮助文档\n" +
