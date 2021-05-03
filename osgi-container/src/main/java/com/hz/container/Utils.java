@@ -91,7 +91,6 @@ public class Utils {
     // 构建Utils.bundlePathClassLoaderMap
     public static void setBundleClassLoaderMap() {
         final String deployPath = getDeployPath();
-        System.out.println(deployPath);
         try {
             final URL[] resourceURLs = findResourceURLs(deployPath);
 
